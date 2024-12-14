@@ -6,9 +6,9 @@ import {
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { onMounted, useTemplateRef } from "vue";
-import { TItem } from "../../shareds";
 import { preventUnhandled } from "@atlaskit/pragmatic-drag-and-drop/prevent-unhandled";
 import ItemCustom from "./ItemCustom.vue";
+import { TItem } from "../../shared";
 
 const scrollableRef = useTemplateRef("listRef");
 const props = defineProps<{

@@ -1,5 +1,18 @@
-# Vue 3 + TypeScript + Vite
+# Pragmatic custom preview
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/~/github.com/hungify/pragmatic-custom-preview)
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+A good example of tackling the problems that come with native drag preview items on different browsers and devices.
+
+This project is a [vue.js](https://vuejs.org/) implementation of the [Pragmatic custom preview](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/adapters/element/drag-previews#non-native-custom-drag-previews)
+
+## Running locally
+
+This is fairly vanilla `vue.js` project, so you can run it locally by:
+
+```bash
+npm install
+npm run dev
+```
+
+By [Hungify](https://github.com/hungify)

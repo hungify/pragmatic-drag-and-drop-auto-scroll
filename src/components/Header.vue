@@ -10,6 +10,13 @@
         >
           Mode: {{ props.scrollMode }}
         </button>
+        <a
+          href="https://github.com/hungify/pragmatic-custom-preview"
+          target="_blank"
+          class="github-link"
+        >
+          <img src="/icons/github.svg" alt="GitHub" />
+        </a>
       </div>
     </div>
   </header>
@@ -54,7 +61,9 @@ const toggleScrollMode = () => {
 
 .scroll-controls {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
 }
 
 .control-btn {
@@ -66,5 +75,10 @@ const toggleScrollMode = () => {
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
+}
+
+.github-link img {
+  width: 28px;
+  height: 28px;
 }
 </style>
