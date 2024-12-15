@@ -8,7 +8,14 @@
           :class="{ active: scrollMode === 'window' }"
           @click="toggleScrollMode"
         >
-          Mode: {{ props.scrollMode }}
+          Scroll: {{ scrollMode === "window" ? "Window" : "List" }}
+        </button>
+        <button
+          class="control-btn"
+          :class="{ active: showImage }"
+          @click="toggleShowImage"
+        >
+          Mode: {{ showImage ? "Image" : "Text" }}
         </button>
         <a
           href="https://github.com/hungify/pragmatic-custom-preview"
@@ -25,11 +32,13 @@
 <script setup lang="ts">
 import FPSCounter from "./FPSCounter.vue";
 
-const props = defineProps<{
+defineProps<{
   scrollMode: "window" | "list";
+  showImage: boolean;
 }>();
 defineEmits<{
   "update:scrollMode": (value: "window" | "list") => void;
+  "update:showImage": (value: boolean) => void;
 }>();
 
 const scrollMode = defineModel("scrollMode", {
@@ -37,8 +46,17 @@ const scrollMode = defineModel("scrollMode", {
   default: "window",
 });
 
+const showImage = defineModel("showImage", {
+  type: Boolean,
+  default: true,
+});
+
 const toggleScrollMode = () => {
   scrollMode.value = scrollMode.value === "window" ? "list" : "window";
+};
+
+const toggleShowImage = () => {
+  showImage.value = !showImage.value;
 };
 </script>
 
@@ -70,7 +88,7 @@ const toggleScrollMode = () => {
   padding: 8px 16px;
   border: 1px solid #ddd;
   background: #6b4ce6;
-  color: 6b4ce6;
+  color: #fff;
   border-color: #6b4ce6;
   border-radius: 4px;
   cursor: pointer;

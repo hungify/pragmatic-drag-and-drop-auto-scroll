@@ -7,6 +7,7 @@ import ItemPreview from "../ItemPreview.vue";
 const props = defineProps<{
   item: TItem;
   instanceId: Symbol;
+  showImage: boolean;
 }>();
 
 const itemRef = ref<HTMLElement | null>(null);
@@ -37,7 +38,13 @@ const { state, preview, previewElement } = useDraggable({
       'not-draggable': isItemPinned,
     }"
   >
-    {{ props.item.title }}
+    <img
+      v-if="props.showImage"
+      :src="props.item.image"
+      alt="item"
+      class="item-image"
+    />
+    <span v-else>{{ props.item.title }}</span>
   </div>
 
   <teleport to="body" v-if="preview">
@@ -55,7 +62,7 @@ const { state, preview, previewElement } = useDraggable({
         transform: `translate(${preview.bounds.left}px, ${preview.bounds.top}px)`,
       }"
     >
-      <ItemPreview :item="props.item" />
+      <ItemPreview :item="props.item" :showImage="props.showImage" />
     </div>
   </teleport>
 </template>
@@ -81,6 +88,7 @@ const { state, preview, previewElement } = useDraggable({
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: grab;
 }
 
 .item-idle:hover {
@@ -97,5 +105,11 @@ const { state, preview, previewElement } = useDraggable({
   filter: brightness(1.15);
   box-shadow: 0px 8px 12px #091e4226, 0px 0px 1px #091e424f;
   background: #73ec8b;
+}
+
+.item-image {
+  border-radius: 50%;
+  /* Workaround to make `image` not draggable. */
+  pointer-events: none;
 }
 </style>

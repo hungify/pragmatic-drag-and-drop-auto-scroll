@@ -3,11 +3,20 @@ import { TItem } from "../shared";
 
 const props = defineProps<{
   item: TItem;
+  showImage: boolean;
 }>();
 </script>
 
 <template>
-  <div class="grid-item">{{ props.item.title }}</div>
+  <div class="grid-item">
+    <img
+      v-if="props.showImage"
+      :src="props.item.image"
+      alt="item"
+      class="item-image"
+    />
+    <span v-else>{{ props.item.title }}</span>
+  </div>
 </template>
 
 <style scoped>
@@ -22,5 +31,11 @@ const props = defineProps<{
   color: #ff5630;
   transform: rotate(4deg);
   width: 100%;
+}
+
+.item-image {
+  border-radius: 50%;
+  /* Workaround to make `image` not draggable. */
+  pointer-events: none;
 }
 </style>

@@ -15,6 +15,7 @@ const props = defineProps<{
   items: TItem[];
   instanceId: Symbol;
   scrollMode: "window" | "list";
+  showImage: boolean;
 }>();
 
 defineEmits<{
@@ -73,7 +74,11 @@ onMounted(() => {
     :class="{ 'list-scroll': props.scrollMode === 'list' }"
   >
     <template v-for="item in props.items" :key="item?.value">
-      <ItemCustom :item="item" :instanceId="props.instanceId" />
+      <ItemCustom
+        :item="item"
+        :instanceId="props.instanceId"
+        :showImage="props.showImage"
+      />
     </template>
   </div>
 </template>

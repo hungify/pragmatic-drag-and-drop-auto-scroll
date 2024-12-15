@@ -14,6 +14,7 @@ const props = defineProps<{
   items: TItem[];
   instanceId: Symbol;
   scrollMode: "window" | "list";
+  showImage: boolean;
 }>();
 
 defineEmits<{
@@ -73,7 +74,11 @@ onMounted(() => {
     ref="listRef"
   >
     <template v-for="item in props.items" :key="item?.value">
-      <ItemNative :item="item" :instanceId="props.instanceId" />
+      <ItemNative
+        :item="item"
+        :instanceId="props.instanceId"
+        :showImage="props.showImage"
+      />
     </template>
   </div>
 </template>

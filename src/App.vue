@@ -22,11 +22,12 @@ const list = [
 ];
 
 const scrollMode = ref<"window" | "list">("window");
+const showImage = ref(false);
 </script>
 
 <template>
   <div>
-    <Header v-model:scrollMode="scrollMode" />
+    <Header v-model:scrollMode="scrollMode" v-model:showImage="showImage" />
     <div class="grid" :class="{ 'list-scroll': scrollMode === 'list' }">
       <div class="custom-preview" v-for="item in list" :key="item.instanceId">
         <h4 class="title">{{ item.title }}</h4>
@@ -35,6 +36,7 @@ const scrollMode = ref<"window" | "list">("window");
           v-model:items="item.items.value"
           :instanceId="item.instanceId"
           :scrollMode="scrollMode"
+          :showImage="showImage"
         />
       </div>
     </div>

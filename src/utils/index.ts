@@ -27,6 +27,7 @@ export function getColumns({
       id: `${prefix}-${itemIndex}`,
       title: `${prefix} ${itemIndex}`,
       pinned: itemIndex % 2 === 0,
+      image: `https://placehold.co/40x40?text=${prefix}-${itemIndex}`,
     };
   });
   return items;
