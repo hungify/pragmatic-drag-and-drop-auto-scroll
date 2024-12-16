@@ -1,6 +1,7 @@
 import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import type {
   AllDragTypes,
+  BaseEventPayload,
   DropTargetGetFeedbackArgs,
   ElementDragType,
   Input,
@@ -10,7 +11,14 @@ import {
   dropTargetForElements,
 } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { disableNativeDragPreview } from "@atlaskit/pragmatic-drag-and-drop/element/disable-native-drag-preview";
-import { MaybeRefOrGetter, onMounted, ref, toValue, watchEffect } from "vue";
+import {
+  MaybeRefOrGetter,
+  onMounted,
+  ref,
+  StyleValue,
+  toValue,
+  watchEffect,
+} from "vue";
 import { DraggableState } from "../shared";
 
 // Lib doesn't export these types, so we need to define them ourselves
@@ -38,16 +46,29 @@ interface DraggableOffset {
   y: number;
 }
 
-interface DraggableOptions<TElement extends HTMLElement> {
+interface DraggableOptions<
+  TElement extends HTMLElement,
+  TDragType extends AllDragTypes = ElementDragType
+> {
   element: MaybeRefOrGetter<TElement | null>;
   canDrag?: (args: DraggableGetFeedbackArgs) => boolean;
-  canDrop?: (args: DropTargetGetFeedbackArgs<ElementDragType>) => boolean;
+  canDrop?: (args: DropTargetGetFeedbackArgs<TDragType>) => boolean;
   handle?: Element;
   getInitialData?: (args: DraggableGetFeedbackArgs) => Record<string, unknown>;
   getData?: (
-    args: DropTargetGetFeedbackArgs<AllDragTypes>
+    args: DropTargetGetFeedbackArgs<TDragType>
   ) => Record<string | symbol, unknown>;
+  onDragLeave?: (args: BaseEventPayload<TDragType>) => void;
 }
+
+const draggablePreviewStyles: StyleValue = {
+  position: "fixed",
+  pointerEvents: "none",
+  willChange: "transform",
+  zIndex: 1000,
+  top: 0,
+  left: 0,
+};
 
 export const useDraggable = <TElement extends HTMLElement>(
   options: DraggableOptions<TElement>
@@ -117,14 +138,28 @@ export const useDraggable = <TElement extends HTMLElement>(
   });
 
   watchEffect(() => {
-    if (!previewElement.value || !pointer.value || !offset.value) return;
+    if (
+      !previewElement.value ||
+      !pointer.value ||
+      !offset.value ||
+      !preview.value
+    )
+      return;
+
+    Object.assign(previewElement.value.style, {
+      ...draggablePreviewStyles,
+      width: `${preview.value.bounds.width}px`,
+      height: `${preview.value.bounds.height}px`,
+    });
 
     const x = pointer.value.clientX - offset.value.x;
     const y = pointer.value.clientY - offset.value.y;
 
     requestAnimationFrame(() => {
       if (!previewElement.value) return;
-      previewElement.value.style.transform = `translate(${x}px, ${y}px)`;
+      Object.assign(previewElement.value.style, {
+        transform: `translate(${x}px, ${y}px)`,
+      });
     });
   });
 

@@ -46,20 +46,7 @@ const { state, preview, previewElement } = useDraggable({
     />
     <span v-else>{{ props.item.title }}</span>
     <teleport to="body" v-if="preview">
-      <div
-        ref="previewElement"
-        :style="{
-          position: 'fixed',
-          width: `${preview.bounds.width}px`,
-          height: `${preview.bounds.height}px`,
-          pointerEvents: 'none',
-          willChange: 'transform',
-          zIndex: 1000,
-          top: 0,
-          left: 0,
-          transform: `translate(${preview.bounds.left}px, ${preview.bounds.top}px)`,
-        }"
-      >
+      <div ref="previewElement">
         <ItemPreview :item="props.item" :showImage="props.showImage" />
       </div>
     </teleport>
